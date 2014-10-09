@@ -1,0 +1,548 @@
+﻿@model FederalTimeTracker.Models.TimeSheet
+
+@{
+    ViewBag.Title = "Monthly Timesheet";
+}
+
+<h2>@ViewBag.Title : @User.Identity.Name [ @ViewBag.MonthName -  @ViewBag.Year ]</h2>
+<hr />
+
+@using (Html.BeginForm("MonthlyTS","TimeSheet",FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(t=>t.CreatedBy)
+    @Html.HiddenFor(t=>t.CreatedDate)
+    @Html.HiddenFor(t=>t.EmployeeEmployeeId)
+    @Html.HiddenFor(t=>t.TimeSheetId)
+    
+    <div class="row">
+
+        <div class="col-md-2">
+
+            <p>
+                @Html.ActionLink(String.Format("« {0}-{1}", (String) ViewBag.MonthPreName, (int) ViewBag.YearPre), "MonthlyTS", new {month = ViewBag.MonthPre, year = ViewBag.YearPre}, new {@class = "btn btn-default"})
+
+
+            </p>
+        </div>
+        <div class="col-md-8 hidden-xs">
+            <div class="col-md-2">
+                &nbsp;
+            </div>
+
+            <div class="col-md-2">
+
+                <div class="form-group">
+                    @Html.DropDownListFor(m => m.Month, new SelectList(ViewBag.MonthList, "Key", "Value", Model.Month), new {@class = "form-control input-normal", @id = "Month"})
+
+
+                
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    @Html.DropDownListFor(m => m.Year, new SelectList(ViewBag.YearList, Model.Year), new {@class = "form-control input-normal", @id = "Year"})
+                
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+              
+                    @Html.ActionLink("Go", "MonthlyTS", new {month = ViewBag.MonthPre, year = ViewBag.YearPre}, new {@class = "btn btn-default", @id = "btnGO"})
+
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <p>
+                @Html.ActionLink(String.Format("{0}-{1} »", (String) ViewBag.MonthNextName, (int) ViewBag.YearNext), "MonthlyTS", new {month = ViewBag.MonthNext, year = ViewBag.YearNext}, new {@class = "btn btn-default"})
+
+            </p>
+        </div>
+    </div>
+    <div class="jumbotron">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <table border="0">
+                        <thead>
+                            @*<tr>
+                                <td> &nbsp;</td>
+                                <td>  &nbsp;</td>
+                                @for (var i = (DateTime)ViewData["DayStart"]; i < (DateTime)ViewData["DayEnd"]; i = ((DateTime)i).AddDays(1))
+                                {
+
+
+                                    <td class="dateHeaderDate">@Html.Label("1", i.DayOfWeek.ToString().Substring(0, 1), new { @class = "txtTimeEntry" })</td>
+
+
+                                }
+                                <td>  &nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>*@
+                            <tr>
+                                <td>  @Html.Label("Projects", "Projects", new {@class = "dateHeader"})</td>
+
+                                <td>  &nbsp;</td>
+                                @for (var i = (DateTime) ViewData["DayStart"]; i < (DateTime) ViewData["DayEnd"]; i = i.AddDays(1))
+                                {
+                                    if (i.DayOfWeek == DayOfWeek.Sunday || i.DayOfWeek == DayOfWeek.Saturday)
+                                    {
+                                        <td class="dateHeaderDate">@Html.Label("1", i.Day.ToString(), new {@class = "txtTimeEntry"})</td>
+                                    }
+                                    else
+                                    {
+                                        <td class="dateHeaderDate">@Html.Label("1", i.Day.ToString(), new {@class = "txtTimeEntry"})</td>
+                                    }
+
+                                }
+                                <td>  &nbsp;</td>
+                                <td>@Html.Label("Total", "Total".ToString(), new {@class = "dateHeader"})</td>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+
+                            @foreach (var project in (List<string>) ViewData["Projects"])
+                            {
+                                <tr>
+                                    <td>  @project </td>
+                                    <td> &nbsp;</td>
+                                    @for (var i = (DateTime) ViewData["DayStart"]; i < (DateTime) ViewData["DayEnd"]; i = ((DateTime) i).AddDays(1))
+                                    {
+
+                                        if (i.DayOfWeek == DayOfWeek.Sunday || i.DayOfWeek == DayOfWeek.Saturday)
+                                        {
+                                            <td>@Html.TextBox(i.Day.ToString(), "", new {@class = "txtTimeEntryWE form-control input-xsmall"})</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@Html.TextBox(i.Day.ToString(), "", new {@class = "txtTimeEntry  form-control input-xsmall"})</td>
+
+                                        }
+
+
+
+
+                                    }
+                                    <td>  &nbsp;</td>
+                                    <td align="right"> 0</td>
+                                </tr>
+                            }
+
+
+                            <tr>
+                                <td>Non-Federal </td>
+                                <td> &nbsp;</td>
+                                @for (var i = (DateTime) ViewData["DayStart"]; i < (DateTime) ViewData["DayEnd"]; i = ((DateTime) i).AddDays(1))
+                                {
+
+                                    if (i.DayOfWeek == DayOfWeek.Sunday || i.DayOfWeek == DayOfWeek.Saturday)
+                                    {
+                                        <td>@Html.TextBox(i.Day.ToString(), "", new {@class = "txtTimeEntryWE form-control"})</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@Html.TextBox(i.Day.ToString(), "", new {@class = "txtTimeEntry form-control"})</td>
+
+                                    }
+
+
+
+
+                                }
+                                <td>  &nbsp;</td>
+                                <td align="right"> 0</td>
+                            </tr>
+                            <tr>
+                                <td>  Leave </td>
+                                <td> &nbsp;</td>
+                                @for (var i = (DateTime) ViewData["DayStart"]; i < (DateTime) ViewData["DayEnd"]; i = ((DateTime) i).AddDays(1))
+                                {
+
+                                    if (i.DayOfWeek == DayOfWeek.Sunday || i.DayOfWeek == DayOfWeek.Saturday)
+                                    {
+                                        <td>@Html.TextBox(i.Day.ToString(), "", new {@class = "txtTimeEntryWE form-control"})</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@Html.TextBox(i.Day.ToString(), "", new {@class = "txtTimeEntry form-control"})</td>
+
+                                    }
+
+
+
+
+                                }
+                                <td>  &nbsp;</td>
+                                <td align="right"> 0</td>
+                            </tr>
+
+                        </tbody>
+
+                        <tfoot>
+
+
+                            <tr>
+                                <td><p>  Total </p></td>
+                                <td><p>  &nbsp;</p></td>
+                                @for (var i = (DateTime) ViewData["DayStart"]; i < (DateTime) ViewData["DayEnd"]; i = ((DateTime) i).AddDays(1))
+                                {
+
+                                    if (i.DayOfWeek == DayOfWeek.Sunday || i.DayOfWeek == DayOfWeek.Saturday)
+                                    {
+                                        <td class="dateHeaderDate">@Html.Label(i.Day.ToString(), "0", new {@class = "txtTimeEntry"})</td>
+                                    }
+                                    else
+                                    {
+                                        <td class="dateHeaderDate">@Html.Label(i.Day.ToString(), "0", new {@class = "txtTimeEntry"})</td>
+
+                                    }
+
+                                }
+                                <td>  &nbsp;</td>
+                                <td align="right"> 0</td>
+                            </tr>
+
+                        </tfoot>
+
+
+                    </table>
+                </div>
+            </div>
+            @*<td>@Html.Label("1", "1", new { @class = "txtTimeEntry" })</td>*@
+        </div>
+        <div class="row ">
+
+
+            <div class="col-md-12">
+
+
+            </div>
+
+        </div>
+        <div class="row container">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div>
+                        Reviewer Comments:
+                    </div>
+                    <div>
+                        @Html.TextAreaFor(model => model.ReviewerComments, new {@class = "form-control boxsizingBorder", @readonly = true, @cols = 20, @rows = 5})
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-4">
+
+                <div class="form-group">
+                    <div>
+                        Employee Comments:
+                    </div>
+                    <div>
+                        @Html.TextAreaFor(model => model.EmployeeComments, new {@class = "form-control boxsizingBorder", @cols = 20, @rows = 5, @HttpMethod = "POST"})
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div>
+                    &nbsp;
+                </div><div>
+                          &nbsp;
+                      </div>
+                <div>
+                    &nbsp;
+                </div><div>
+                          &nbsp;
+                      </div>
+                <p>
+
+
+                    @*@Html.ActionLink("Save and Submit Later", "MonthlyTS", new { controller = "TimeSheet" }, new { @class = "btn btn-default" })*@
+                    <input type="submit" value="Save and Submit Later" class="btn btn-default" name="action:Save" />
+                </p>
+
+
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="row ">
+        <div class="col-md-4">
+            <div>
+                &nbsp;
+            </div>
+            <div>
+
+                <a class="btn btn-default" id="myProjects" href="#">My Project/EO</a>
+
+
+
+                <a class="btn btn-default" id="viewOffSet" href="#">View Offset report</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <div>
+                    Employee Signature (Password)
+                </div>
+                <div>
+                    @Html.PasswordFor(model => model.Signature, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Signature)
+                </div>
+            </div>
+
+
+
+        </div>
+        <div class="col-md-4">
+            <div>
+                &nbsp;
+            </div>
+
+            @*@Html.ActionLink("Submit for Approval »", "Index", new {controller = "Home"}, new {@class = "btn btn-primary"})*@
+            <input type="submit" value="Submit for Approval »" class="btn btn-primary" name="action:Submit" />
+        </div>
+    </div>
+}
+<hr />
+
+
+<div class="row">
+
+
+
+
+</div>
+
+
+
+<div id="dialog-form" title="Offset Report [@ViewBag.MonthName -  @ViewBag.Year]">
+
+    @Html.Action("MonthlyOffset", "Report", new { year = ViewBag.Year, month = ViewBag.Month })
+
+
+
+</div>
+
+
+<div id="dialog-form-project" title="Projects">
+
+
+    <div class="form-horizontal">
+        <div class="col-md-10">
+            <div class="form-group">
+                <div class="control-label col-md-2"> Project </div>
+                <select id="MovieType" name="MovieType">
+
+                    <option value=""></option>
+                    @foreach (var project in (List<string>)ViewData["Projects"])
+                    {
+                        <option>@project</option>
+                    }
+                </select>
+
+                <input type="button" value="Add" class="btn btn-default" />
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <table id="MyNewProjects" title="Projects" style="width:100%">
+        <thead>
+            <tr class="ui-widget-header ">
+                <th>Project</th>
+                <th>EO</th>
+                <th>Active</th>
+                <th>Effective Date</th>
+                <th>Closed Date</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="ui-widget-content">
+                <td>Admininistration of the Annual Program 2013</td>
+                <td>J2</td>
+                <td>@Html.CheckBox("chk", true)</td>
+                <td>09/25/2012&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><input type="button" value="Remove" class="btn btn-danger btn-xs" /></td>
+            </tr>
+
+            <tr class="ui-widget-content">
+                <td>Lorem ipsum dolor sit amet 2013</td>
+                <td>J2</td>
+                <td>@Html.CheckBox("chk", true)</td>
+                <td>09/25/2012&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><input type="button" value="Remove" class="btn btn-danger btn-xs" /></td>
+            </tr>
+
+            <tr class="ui-widget-content">
+                <td>Lorem ipsum dolor sit posuere 2013</td>
+                <td>J2</td>
+                <td>@Html.CheckBox("chk", true)</td>
+                <td>09/25/2012&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><input type="button" value="Remove" class="btn btn-danger btn-xs" /></td>
+            </tr>
+
+
+        </tbody>
+
+    </table>
+
+</div>
+@section Scripts {
+    @Styles.Render("~/Content/themes/base/css")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('.txtTimeEntry').jStepper({ minValue: 0, maxValue: 24, minLength: 1, defaultValue:0, shiftStep: 4, ctrlStep: 8});
+            $('.txtTimeEntryWE').jStepper({ minValue: 0, maxValue: 24, minLength: 1, defaultValue: 0, shiftStep: 4, ctrlStep: 8 });
+
+        });
+
+    </script>
+
+    <script type="text/javascript">
+        //var name = $("#name"),
+        // email = $("#email"),
+        // password = $("#password"),
+        // allFields = $([]).add(name).add(email).add(password),
+        // tips = $(".validateTips");
+
+        $("#dialog-form").dialog({
+            autoOpen: false,
+            height: 300,
+            width: 650,
+            modal: true,
+            buttons: {
+                "Close": function () {
+
+                    $(this).dialog("close");
+
+                }
+
+            },
+            close: function () {
+                $(this).dialog("close"); //allFields.val("").removeClass("ui-state-error");
+            }
+        });
+
+        $("#viewOffSet")
+            .button()
+            .click(function () {
+
+                $("#dialog-form").dialog("open");
+            });
+
+        $("#viewOffSet1")
+            .button()
+            .click(function () {
+                alert('ok');
+                //event.preventDefault();
+                // var clientId = $(this).attr("data");
+                $.ajax({
+                    url: '@String.Format("Report/MonthlyOffset?year={0}",ViewBag.Year)&@String.Format("month={0}", ViewBag.Month)',
+                    type: "GET",
+                    cache: false
+                }).done(function (result) {
+
+                    $("#dialog-form").html(result).dialog("open");
+                });
+
+                //$("#dialog-form").dialog("open");
+            });
+
+
+    </script>
+
+
+
+    <script type="text/javascript">
+
+        $("#dialog-form-project").dialog({
+            autoOpen: false,
+            height: 400,
+            width: 850,
+            modal: true,
+            buttons: {
+                "Close": function () {
+
+                    $(this).dialog("close");
+
+                }
+
+            },
+            close: function () {
+                $(this).dialog("close"); //allFields.val("").removeClass("ui-state-error");
+            }
+        });
+
+        //$("#myProjects")
+        //  .button()
+        //  .click(function () {
+
+        //     $("#dialog-form-project").dialog("open");
+        //  });
+
+
+        $("#myProjects")
+            .button()
+            .click(function () {
+                //event.preventDefault();
+                // var clientId = $(this).attr("data");
+                $("#dialog-form-project").html("");
+                $.ajax({
+                    url: '@Url.Action("Create","MyProject")',
+                    type: "GET",
+                    cache: false,
+                    
+                        error: function (err) {
+                            alert("AJAX error in request: " + JSON.stringify(err, null, 2));
+                        }
+                }).done(function (result) {
+
+                    $("#dialog-form-project").html(result).dialog("open");
+                });
+
+                //$("#dialog-form").dialog("open");
+            });
+
+
+
+        $('#Month').css('width', '100px');
+        $('#Year').css('width', '100px');
+        $('#txtSignature').css('width', '700px');
+
+    </script>
+
+
+
+ <script type="text/javascript">
+     $('#btnGO').click(function () {
+         var selectedMonth = $('#Month').val();
+         var selectedYear = $('#Year').val();
+         var path = '@Url.Content("~/TimeSheet/MonthlyTS")' + "?month=" + selectedMonth + "&year=" + selectedYear;
+        
+        $(this).attr("href", path);
+    });
+</script>
+}
+
+

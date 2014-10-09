@@ -1,0 +1,47 @@
+﻿@model IEnumerable<FederalTimeTracker.Models.Salary>
+
+<table id="EmployeeSalary" title="Employee Salary" class="table">
+    <thead>
+        <tr class="ui-widget-header ">
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalSalary)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+       @foreach (var item in Model)
+{
+    <tr class="ui-widget-content">
+
+        <td>
+            @Html.DisplayFor(modelItem => item.StartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalSalary)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rate)
+        </td>
+        <td>
+            @Html.ActionLink("Delete", "Delete", new { id = item.SalaryId })
+        </td>
+    </tr>
+}
+
+        <tr class="ui-widget-content">
+            <td>2011-12</td>
+            <td>J1</td>
+            <td>J1</td>
+            <td>X</td>
+
+        </tr>
+    </tbody>
+</table>
+

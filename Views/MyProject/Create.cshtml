@@ -1,0 +1,145 @@
+﻿@using System.Web.Http.Routing
+@using Microsoft.Ajax.Utilities
+@model FederalTimeTracker.Models.MyProject
+
+
+<div id="targetDivMyProject">
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")"></script>
+    @* <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.form.js")"></script>*@
+
+    @{
+        var options = new AjaxOptions();
+        options.HttpMethod = "POST";
+        //options.Confirm = "Do you wish to submit this form?";
+        options.OnBegin = "OnBegin";
+        options.OnComplete = "OnComplete";
+        options.OnFailure = "OnFailure()";
+        options.OnSuccess = "OnSuccess(data)";
+        options.LoadingElementId = "divProgress";
+        options.LoadingElementDuration = 1000;
+        options.UpdateTargetId = "targetDivMyProject";
+        options.InsertionMode = InsertionMode.Replace;
+
+    }
+    @using (Ajax.BeginForm("Create", "MyProject", options, new { name = "frmMyProject", id = "frmMyProject" }))
+    {
+
+
+        @Html.AntiForgeryToken()
+
+
+        <div id="divMsg" class="bg-info"></div>
+        <div id="divProgress">
+            <div class="progress progress-striped active">
+                <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                    <span class="sr-only">Processing</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true)
+
+            @if (((SelectList)ViewBag.ProjectProjectId).Any())
+            {
+                <div class="col-md-10">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ProjectProjectId, "Project", new { @class = "control-label col-md-4" })
+                        @Html.DropDownList("ProjectProjectId", null, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ProjectProjectId)
+
+                    </div>
+                </div>
+                <div class="col-md-2">
+
+
+                    <input type="submit" value="Add »" class="btn btn-primary btn-large" />
+
+
+                </div>
+            }
+
+        </div>
+
+
+
+
+        <div>
+            <div class="table-responsive" id="MyProjects">
+
+            </div>
+        </div>
+
+       
+    }
+
+
+
+    <script language="javascript">
+
+        function getMyProjects() {
+
+            $.ajax({
+                // Get Salary PartialView
+              
+                url: '@Url.Action("Index", "MyProject")',
+
+                type: 'Get',
+                cache: false,
+                success: function (data) {
+                    $("#MyProjects").empty().append(data);
+
+                },
+                error: function () {
+                    alert("An error has occurred. Please contact your system administrator.");
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            getMyProjects();
+
+
+        });
+
+
+    </script>
+
+    <script language="javascript">
+        function OnBegin() {
+            $("#divMsg").removeClass();
+            $("#divMsg").text("");
+           // $("#dialog-form-project").html("");
+        }
+
+        function OnComplete() {
+            // $("#divMsg").append("<h3>Completing Ajax request.</h3>");
+            //$("#dialog-form-project").dialog("close");
+           
+        }
+
+        function OnSuccess(data) {
+            //$("#divMsg").removeClass();
+            // $("#divMsg").append(data);
+            // $("#divMsg").addClass("bg-success");
+         //   $("#dialog-form-project").html(data);
+
+            getMyProjects();
+            //$('#frmSalary').clearForm();
+
+        }
+
+        function OnFailure() {
+            //  $("#divMsg").removeClass();
+            //  $("#divMsg").addClass("bg-danger");
+            // $("#divMsg").append(data);
+        }
+
+        $(document).ready(function () {
+            $("#divProgress").css("display", "none");
+        });
+    </script>
+</div>

@@ -1,0 +1,197 @@
+﻿@using FederalTimeTracker.Models
+@model FederalTimeTracker.Models.Employee
+
+@{
+    ViewBag.Title = "Add New Employee";
+}
+
+<div id="targetDiv">
+    <h2>@ViewBag.Title</h2>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-2.1.1.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.form.js")"></script>
+   @using (Ajax.BeginForm("Create", "Employee", new AjaxOptions { UpdateTargetId = "targetDiv", HttpMethod = "POST" }))
+{
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal ">
+            <hr />
+            @Html.ValidationSummary(true)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.SAMAccountName, new { @class = "control-label col-md-2" })
+
+                <div class="col-lg-10">
+                    <div class="input-group">
+                        @Html.EditorFor(model => model.SAMAccountName, new { @class = "form-control" })
+                      
+                        @Ajax.ActionLink(" Get ", "GetEmployeeInfo", "Employee", new AjaxOptions()
+                        {
+                            HttpMethod = "POST",
+                            UpdateTargetId = "targetDiv",
+                            InsertionMode = InsertionMode.Replace
+
+                        }
+                        , new { @class = "btn btn-primary glyphicon glyphicon-search" })
+                       
+                    </div><!-- /input-group -->
+                    @Html.ValidationMessageFor(model => model.SAMAccountName) 
+                </div><!-- /.col-lg-6 -->
+
+            </div>
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.FullName, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.FullName, new { @class = "form-control " })
+                    @Html.ValidationMessageFor(model => model.FullName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.FirstName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.LastName, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.LastName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.MiddleName, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.MiddleName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.MiddleName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Title, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Title)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Role, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Role, new SelectList(Enum.GetValues(typeof(FederalTimeTracker.Models.Role))), new { @class = "form-control" })
+
+                    @Html.ValidationMessageFor(model => model.Role)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.EmployeeType, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.EmployeeType, new SelectList(Enum.GetValues(typeof(FederalTimeTracker.Models.EmployeeType))), new { @class = "form-control" })
+
+                    @Html.ValidationMessageFor(model => model.EmployeeType)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.EmailID, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.EmailID, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.EmailID)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Salary", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Note, new { @class = "form-control" })
+
+                    @Html.ValidationMessageFor(model => model.Note)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Start Date", new { @class = "control-label col-md-2 " })
+
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Note, new { @class = "form-control datepicker" })
+                    @Html.ValidationMessageFor(model => model.Note)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ReportingTo, "ReportingTo", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("ReportingTo", new SelectList(ViewBag.Managers, "EmployeeId", "FullName"), "", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ReportingTo)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Active, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Active)
+                    @Html.ValidationMessageFor(model => model.Active)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Note, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.Note, 5, 20, new { @class = "form-control boxsizingBorder" })
+
+
+
+                    @Html.ValidationMessageFor(model => model.Note)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                    @Html.ActionLink("« Back to Employee List", "Index", new { controller = "Employee" }, new { @class = "btn btn-default" })
+
+                </div>
+                <div class="col-md-10">
+                    @Ajax.ActionLink("Create  »", "Create", new { controller = "Employee" }, new AjaxOptions()
+                        {
+                            HttpMethod = "POST",
+                            UpdateTargetId = "targetDiv",
+                            InsertionMode = InsertionMode.Replace
+
+
+                        }, new { @class = "btn btn-primary" })
+                    <input type="submit" value="Create  »" class="btn btn-primary" />
+
+                </div>
+            </div>
+
+
+        </div>
+    }
+    @section Scripts {
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryval")
+
+
+
+
+
+        <script language="javascript" type="text/javascript">
+            $(document).ready(function () {
+                $('.datepicker').datepicker({
+                    autoclose: true
+                });
+            });
+
+
+
+        </script>
+    }
+
+</div>

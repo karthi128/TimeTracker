@@ -1,0 +1,72 @@
+﻿@model IEnumerable<FederalTimeTracker.Models.MyProject>
+
+<table id="tblMyProject" title="My Project" class="table">
+    <thead>
+        <tr class="ui-widget-header ">
+            <th>
+                @Html.DisplayNameFor(model => model.Project.ProjectName)
+            </th>
+
+            <th>EO</th>
+            <th>@Html.DisplayNameFor(model => model.Project.Active)</th>
+            <th>@Html.DisplayNameFor(model => model.Project.EffectiveDate)</th>
+            <th>@Html.DisplayNameFor(model => model.Project.ClosedDate)</th>
+            <th>Remove</th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr class="ui-widget-content">
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Project.ProjectName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Project.ProjectYearEOs.FirstOrDefault().EOCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Project.Active)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Project.EffectiveDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Project.ClosedDate)
+                </td>
+                <td>
+                      
+                    @*@Html.ActionLink("Remove ", "Delete", new { id = item.MyProjectId }, new { @class = "btn btn-danger btn-xs" })*@
+
+                    @Ajax.ActionLink("X", "Delete", new { id = item.MyProjectId },   
+                        new AjaxOptions()    
+                        {        
+                            HttpMethod="GET", 
+                            InsertionMode       = InsertionMode.InsertAfter,           
+                           
+                            OnSuccess = "success" 
+                        },
+                        new { @class = "btn btn-danger btn-xs" })
+
+                </td>
+            </tr>
+           
+
+        }
+
+    </tbody>
+</table>
+
+<script language="javascript">
+    function success(data) {
+        //var json = $.parseJSON(data.responseText);
+
+        $("#dialog-form-project").dialog("close");
+        $("#dialog-form-project").html(data).dialog("open");
+       
+    }
+
+</script>
+

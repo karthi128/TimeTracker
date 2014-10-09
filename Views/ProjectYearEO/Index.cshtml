@@ -1,0 +1,39 @@
+﻿@model IEnumerable<FederalTimeTracker.Models.ProjectYearEO>
+<table id="Eos" title="Projecy EOs" width="100%" class="table">
+    <thead>
+        <tr class="ui-widget-header ">
+            <th>
+                @Html.DisplayNameFor(model => model.FYear.FYearName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EOCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectName)
+            </th>
+           
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            <tr class="ui-widget-content">
+                <td>
+                    @Html.DisplayFor(modelItem => item.FYear.FYearName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.EOCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectName)
+                </td>
+                <td>
+                    @Html.ActionLink("X", "Delete", new { id = item.ProjectYearEOId }, new { @class = "btn btn-danger btn-xs", @Tooltip = "Delete Salary Information" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

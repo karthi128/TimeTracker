@@ -1,0 +1,185 @@
+﻿@model IEnumerable<FederalTimeTracker.Models.Project>
+
+@{
+    ViewBag.Title = "Projects";
+}
+
+<h2>Projects</h2>
+
+<p class="">
+
+    @Html.ActionLink("Create New Project »", "Create", new { controller = "Project" }, new { @class = "btn btn-primary btn-large" })
+
+
+</p>
+<table class="table">
+    <tr>
+
+        <th>
+            Project
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Effective Date
+        </th>
+        <th>
+            Closed Date
+        </th>
+        <th>
+            Active
+        </th>
+
+        <th>EO</th>
+        <th>Delete</th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @Html.ActionLink(item.ProjectName, "Details", new { id = item.ProjectId })
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @String.Format("{0:MM/dd/yyyy}", item.EffectiveDate)
+            </td>
+            <td>
+                @String.Format("{0:MM/dd/yyyy}", item.ClosedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Active)
+            </td>
+
+            <td>
+                <input type="button" value="EO" class="btn btn-primary btn-small myPop" />
+            </td>
+
+            <td>
+                @Html.ActionLink("X", "Delete", new { id = item.ProjectId }, new { @class = "btn btn-danger btn-small" })
+
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+<div id="dialog-form" title="Project EO">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="control-label col-md-2"> Year </div>
+            <div class="col-md-4">
+                <select id="FYear" name="FYear" class="form-control input-normal">
+
+                    <option value=""></option>
+
+                    <option value="0">2012-13</option>
+
+                    <option value="1">2013-14</option>
+
+                </select>
+
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-md-2">EO Code</div>
+            <div class="col-md-4">
+              @Html.TextBox("EoCode","",new {@class="form-control input-normal"})
+
+
+
+            </div>
+            <div class="col-md-2">
+                <input type="button" value="Save" class="btn btn-primary" />
+
+
+
+            </div>
+        </div>
+
+    </div>
+
+    <p class="validateTips"></p>
+
+
+
+    <table id="Eos" title="Projecy EOs" style="width:100%">
+        <thead>
+            <tr class="ui-widget-header " >
+                <th>Year</th>
+                <th>EO Code</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="ui-widget-content">
+                <td><a href="#">2012-13</a></td>
+                <td><a href="#">J2</a></td>
+                <td><input type="button" value="X" class="btn btn-danger btn-xs" /></td>
+            </tr>
+            <tr class="ui-widget-content">
+                <td><a href="#">2011-12</a></td>
+                <td><a href="#">J1</a></td>
+                <td><input type="button" value="X" class="btn btn-danger  btn-xs" /></td>
+               
+
+
+
+            </tr>
+        </tbody>
+        <tbody></tbody>
+    </table>
+
+</div>
+
+
+
+@section Scripts {
+    @Styles.Render("~/Content/themes/base/css")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+
+
+    <script>
+        //var name = $("#name"),
+        // email = $("#email"),
+        // password = $("#password"),
+        // allFields = $([]).add(name).add(email).add(password),
+        // tips = $(".validateTips");
+
+        $("#dialog-form").dialog({
+            autoOpen: false,
+            height: 400,
+            width: 650,
+            modal: true,
+            closeOnEscape: true,
+            buttons: {
+                "Close": function () {
+                    $(this).dialog("close");
+                }
+            },
+            close: function () {
+                $(this).dialog("close"); 
+            }
+        });
+
+        $(".myPop")
+          .button()
+          .click(function () {
+             
+              $("#dialog-form").dialog("open");
+          });
+
+    </script>
+}
+
+

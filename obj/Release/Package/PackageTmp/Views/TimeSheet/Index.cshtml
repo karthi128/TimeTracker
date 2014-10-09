@@ -1,0 +1,130 @@
+﻿@using FederalTimeTracker.Models
+@model IEnumerable<FederalTimeTracker.Models.TimeSheet>
+
+@{
+    ViewBag.Title = "Review Timesheet";
+}
+
+<h2>Review Timesheet</h2>
+<hr />
+<div class="row">
+    <div class="col-md-2">
+        <div class="form-group">
+
+        </div>
+    </div>
+    <div class="col-md-2 hidden-xs">
+
+        <div class="form-group">
+
+            @Html.DropDownList("Employees", new SelectList(ViewBag.Employees, "EmployeeId", "FullName", 1), new { @class = "form-control input-normal" })
+        </div>
+    </div>
+    <div class="col-md-2 hidden-xs">
+        <div class="form-group">
+
+            @Html.DropDownList("TimesheetStatus", new SelectList(ViewBag.TimesheetStatus, "Key", "Value", 1), new { @class = "form-control input-normal" })
+        </div>
+
+    </div>
+    <div class="col-md-2">
+
+        <div class="form-group">
+
+            @Html.DropDownList("Month", new SelectList(ViewBag.MonthList, "Key", "Value", ViewBag.Year), new { @class = "form-control input-normal" })
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+
+            @Html.DropDownList("Year", new SelectList(ViewBag.YearList, ViewBag.Month), new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="form-group">
+            <a class="btn btn-default" href="#6">GO &raquo;</a>
+        </div>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <table class="table">
+                <tr>
+
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.Month)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Employee.FullName)
+                    </th>
+                    <th>
+                        Submitted Date
+                    </th>
+                    <th>
+                        Reviewed Date
+                    </th>
+
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.Status)
+                    </th>
+
+
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>
+
+                            @if (item.Status == TimeSheetStatus.Submitted)
+                            {
+                                @Html.ActionLink(String.Format("{0}-{1}", FederalTimeTracker.Utlity.Common.GetMonthName(item.Month, true), item.Year), "Edit", new { id = item.TimeSheetId })
+
+                            }
+                            else
+                            { //}if (item.Status == TimeSheetStatus.NotSubmitted || item.Status == TimeSheetStatus.RequestForUpdate || item.Status==TimeSheetStatus.Approved){
+
+
+                                @Html.ActionLink(String.Format("{0}-{1}", FederalTimeTracker.Utlity.Common.GetMonthName(item.Month, true), item.Year), "MonthlyTS", new { month = item.Month, year = item.Year })
+
+                                //, employeeId = item.EmployeeEmployeeId
+                            }
+
+
+
+
+
+
+
+
+
+                        </td>
+                        <td>
+                            @Html.ActionLink(item.Employee.FullName, "Edit", new { id = item.TimeSheetId })
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SubmittedDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ReviewedDate)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+
+                    </tr>
+                }
+
+            </table>
+
+        </div>
+    </div>
+
+</div>

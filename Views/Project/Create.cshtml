@@ -1,0 +1,104 @@
+﻿@model FederalTimeTracker.Models.Project
+
+@{
+    ViewBag.Title = "Create New Project";
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true)
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProjectName, new { @class = "control-label col-md-2 " })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.ProjectName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ProjectName)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Description, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Description)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.EffectiveDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.EffectiveDate, "{0:MM/dd/yyyy}", new { @class = "datepicker form-control" })
+
+
+
+                @Html.ValidationMessageFor(model => model.EffectiveDate)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ClosedDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.ClosedDate, "{0:MM/dd/yyyy}", new { @class = "datepicker form-control" })
+                @Html.ValidationMessageFor(model => model.ClosedDate)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Active, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Active)
+                @Html.ValidationMessageFor(model => model.Active)
+            </div>
+        </div>
+       
+        <div class="form-group">
+            @Html.LabelFor(model => model.Note, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+
+
+                @Html.TextAreaFor(model => model.Note, 5, 20, new { @class = "form-control boxsizingBorder" })
+
+                @Html.ValidationMessageFor(model => model.Note)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.ActionLink("« Back to Project List", "Index", new { controller = "Project" }, new { @class = "btn btn-default" })
+
+            </div>
+            <div class="col-md-10">
+                @*@Html.ActionLink("Save »", "Details", new { controller = "Project", id = Model.ProjectId }, new { @class = "btn btn-primary" })*@
+
+
+                <input type="submit" value="Create  »" class="btn btn-primary" />
+            </div>
+        </div>
+
+       
+    </div>
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
+            $('.datepicker').datepicker({
+                autoclose: true
+            });
+        });
+
+
+
+    </script>
+}

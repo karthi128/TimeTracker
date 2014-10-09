@@ -1,0 +1,147 @@
+﻿@model FederalTimeTracker.Models.Project
+
+@{
+    ViewBag.Title = "Project Details";
+}
+
+<h2>Project: @Html.DisplayFor(model => model.ProjectName) </h2>
+<hr />
+<div class="row">
+
+
+    <div class="col-md-6">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.LabelFor(model => model.ProjectName)
+            </dt>
+
+            <dd>
+                &nbsp; @Html.DisplayFor(model => model.ProjectName)
+            </dd>
+
+            <dt>
+                @Html.LabelFor(model => model.Description)
+            </dt>
+
+            <dd>
+                &nbsp; @Html.DisplayFor(model => model.Description)
+            </dd>
+
+            <dt>
+                Effective Date
+            </dt>
+
+            <dd>
+                &nbsp; @Html.DisplayFor(model => model.EffectiveDate)
+            </dd>
+            <dt>
+                Project Closed Date
+            </dt>
+
+            <dd>
+                &nbsp; @Html.DisplayFor(model => model.ClosedDate)
+            </dd>
+            <dt>
+                Active
+            </dt>
+
+            <dd>
+                &nbsp; @Html.DisplayFor(model => model.Active)
+            </dd>
+            <dt>
+                Created By
+            </dt>
+
+
+            <dd>
+                &nbsp; @Html.DisplayFor(model => model.CreatedBy)
+            </dd>
+
+            <dt>
+                Created Date
+            </dt>
+
+            <dd>
+                &nbsp; @Html.DisplayFor(model => model.CreatedDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ModifiedBy)
+            </dt>
+
+            <dd>
+                &nbsp; @Html.DisplayFor(model => model.ModifiedBy)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ModifiedDate)
+            </dt>
+
+            <dd>
+                &nbsp; @Html.DisplayFor(model => model.ModifiedDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Note)
+            </dt>
+
+            <dd>
+                &nbsp; @Html.DisplayFor(model => model.Note)
+            </dd>
+
+        </dl>
+    </div>
+
+    <div class="col-md-4">
+        <div class="table-responsive" id="ProjectEOs">
+           
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="form-group">
+        <div class="col-md-2">
+            @Html.ActionLink("« Back to Project List", "Index", new { controller = "Project" }, new { @class = "btn btn-default" })
+
+
+        </div>
+        <div class="col-md-10">
+            @Html.ActionLink("Edit »", "Edit", new { id = Model.ProjectId }, new { @class = "btn btn-primary btn-large" })
+
+
+
+        </div>
+
+
+    </div>
+</div>
+
+@section Scripts {
+    @Styles.Render("~/Content/themes/base/css")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+
+    <script language="javascript" type="text/javascript">
+
+        function getEO() {
+           
+            $.ajax({
+                // Get Salary PartialView
+                url: '@Url.Action("Index", "ProjectYearEO")' + '?id=@Model.ProjectId',
+                type: 'Get',
+                success: function (data) {
+
+                    $("#ProjectEOs").empty().append(data);
+                },
+                error: function() {
+                    alert("something seems wrong");
+                }
+            });
+        }
+
+        getEO();
+    </script>
+}

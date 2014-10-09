@@ -1,0 +1,331 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TimeTracker.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="AuditTimeSheets">
+    <Key>
+      <PropertyRef Name="AuditTimeSheetId" />
+    </Key>
+    <Property Name="AuditTimeSheetId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Status" Type="smallint" Nullable="false" />
+    <Property Name="AuditDate" Type="datetime" Nullable="false" />
+    <Property Name="Comments" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="TimeSheetTimeSheetId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Employees">
+    <Key>
+      <PropertyRef Name="EmployeeId" />
+    </Key>
+    <Property Name="EmployeeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FullName" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="MiddleName" Type="nvarchar" MaxLength="250" />
+    <Property Name="Title" Type="nvarchar" MaxLength="50" />
+    <Property Name="Role" Type="smallint" Nullable="false" />
+    <Property Name="EmployeeType" Type="smallint" Nullable="false" />
+    <Property Name="EmailID" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="Active" Type="bit" Nullable="false" />
+    <Property Name="ReportingTo" Type="int" />
+    <Property Name="SAMAccountName" Type="nvarchar(max)" />
+    <Property Name="Note" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedBy" Type="nvarchar" MaxLength="250" />
+    <Property Name="ModifiedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="FYears">
+    <Key>
+      <PropertyRef Name="FYearId" />
+    </Key>
+    <Property Name="FYearId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FYearName" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="2000" />
+    <Property Name="Active" Type="bit" Nullable="false" />
+    <Property Name="Current" Type="bit" Nullable="false" />
+    <Property Name="Note" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedBy" Type="nvarchar" MaxLength="250" />
+    <Property Name="ModifiedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="MyProjects">
+    <Key>
+      <PropertyRef Name="MyProjectId" />
+    </Key>
+    <Property Name="MyProjectId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmployeeEmployeeId" Type="int" Nullable="false" />
+    <Property Name="ProjectProjectId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Projects">
+    <Key>
+      <PropertyRef Name="ProjectId" />
+    </Key>
+    <Property Name="ProjectId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EffectiveDate" Type="datetime" />
+    <Property Name="ClosedDate" Type="datetime" />
+    <Property Name="Active" Type="bit" Nullable="false" />
+    <Property Name="ProjectName" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="2000" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedBy" Type="nvarchar" MaxLength="250" />
+    <Property Name="ModifiedDate" Type="datetime" />
+    <Property Name="Note" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="ProjectYearEOs">
+    <Key>
+      <PropertyRef Name="ProjectYearEOId" />
+    </Key>
+    <Property Name="ProjectYearEOId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EOCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ProjectName" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedBy" Type="nvarchar" MaxLength="250" />
+    <Property Name="ModifiedDate" Type="datetime" />
+    <Property Name="Note" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ProjectProjectId" Type="int" Nullable="false" />
+    <Property Name="FYearFYearId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Salaries">
+    <Key>
+      <PropertyRef Name="SalaryId" />
+    </Key>
+    <Property Name="SalaryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmployeeEmployeeId" Type="int" Nullable="false" />
+    <Property Name="StartDate" Type="datetime" Nullable="false" />
+    <Property Name="TotalSalary" Type="float" Nullable="false" />
+    <Property Name="Rate" Type="float" Nullable="false" />
+    <Property Name="PositionNumber" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="EO" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IsITStaff" Type="bit" Nullable="false" />
+    <Property Name="Note" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedBy" Type="nvarchar" MaxLength="250" />
+    <Property Name="ModifiedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="TimeEntries">
+    <Key>
+      <PropertyRef Name="TimeEntryId" />
+    </Key>
+    <Property Name="TimeEntryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TimeSheetTimeSheetId" Type="int" Nullable="false" />
+    <Property Name="Hours" Type="smallint" Nullable="false" />
+    <Property Name="EntryType" Type="int" Nullable="false" />
+    <Property Name="ProjectProjectId" Type="int" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedBy" Type="nvarchar" MaxLength="250" />
+    <Property Name="ModifiedDate" Type="datetime" />
+    <Property Name="TimeSheetDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TimeSheets">
+    <Key>
+      <PropertyRef Name="TimeSheetId" />
+    </Key>
+    <Property Name="TimeSheetId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Year" Type="smallint" Nullable="false" />
+    <Property Name="Month" Type="smallint" Nullable="false" />
+    <Property Name="SubmittedDate" Type="datetime" />
+    <Property Name="ReviewedDate" Type="datetime" />
+    <Property Name="EmployeeComments" Type="nvarchar(max)" />
+    <Property Name="ReviewerComments" Type="nvarchar(max)" />
+    <Property Name="Signature" Type="nvarchar" MaxLength="500" />
+    <Property Name="FYearFYearId" Type="int" Nullable="false" />
+    <Property Name="EmployeeEmployeeId" Type="int" Nullable="false" />
+    <Property Name="Status" Type="smallint" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedBy" Type="nvarchar" MaxLength="250" />
+    <Property Name="ModifiedDate" Type="datetime" />
+  </EntityType>
+  <Association Name="FK_EmployeeMyProject">
+    <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+    <End Role="MyProjects" Type="Self.MyProjects" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employees">
+        <PropertyRef Name="EmployeeId" />
+      </Principal>
+      <Dependent Role="MyProjects">
+        <PropertyRef Name="EmployeeEmployeeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Employees_Employees">
+    <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+    <End Role="Employees1" Type="Self.Employees" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employees">
+        <PropertyRef Name="EmployeeId" />
+      </Principal>
+      <Dependent Role="Employees1">
+        <PropertyRef Name="ReportingTo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EmployeeSalary">
+    <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+    <End Role="Salaries" Type="Self.Salaries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employees">
+        <PropertyRef Name="EmployeeId" />
+      </Principal>
+      <Dependent Role="Salaries">
+        <PropertyRef Name="EmployeeEmployeeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EmployeeTimeSheet">
+    <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+    <End Role="TimeSheets" Type="Self.TimeSheets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employees">
+        <PropertyRef Name="EmployeeId" />
+      </Principal>
+      <Dependent Role="TimeSheets">
+        <PropertyRef Name="EmployeeEmployeeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FYearProjectYearEO">
+    <End Role="FYears" Type="Self.FYears" Multiplicity="1" />
+    <End Role="ProjectYearEOs" Type="Self.ProjectYearEOs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FYears">
+        <PropertyRef Name="FYearId" />
+      </Principal>
+      <Dependent Role="ProjectYearEOs">
+        <PropertyRef Name="FYearFYearId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FYearTimeSheet">
+    <End Role="FYears" Type="Self.FYears" Multiplicity="1" />
+    <End Role="TimeSheets" Type="Self.TimeSheets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FYears">
+        <PropertyRef Name="FYearId" />
+      </Principal>
+      <Dependent Role="TimeSheets">
+        <PropertyRef Name="FYearFYearId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectMyProject">
+    <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+    <End Role="MyProjects" Type="Self.MyProjects" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Projects">
+        <PropertyRef Name="ProjectId" />
+      </Principal>
+      <Dependent Role="MyProjects">
+        <PropertyRef Name="ProjectProjectId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectProjectYearEO">
+    <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+    <End Role="ProjectYearEOs" Type="Self.ProjectYearEOs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Projects">
+        <PropertyRef Name="ProjectId" />
+      </Principal>
+      <Dependent Role="ProjectYearEOs">
+        <PropertyRef Name="ProjectProjectId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectTimeEntry">
+    <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+    <End Role="TimeEntries" Type="Self.TimeEntries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Projects">
+        <PropertyRef Name="ProjectId" />
+      </Principal>
+      <Dependent Role="TimeEntries">
+        <PropertyRef Name="ProjectProjectId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TimeSheetAuditTimeSheet">
+    <End Role="TimeSheets" Type="Self.TimeSheets" Multiplicity="1" />
+    <End Role="AuditTimeSheets" Type="Self.AuditTimeSheets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TimeSheets">
+        <PropertyRef Name="TimeSheetId" />
+      </Principal>
+      <Dependent Role="AuditTimeSheets">
+        <PropertyRef Name="TimeSheetTimeSheetId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TimeSheetTimeEntry">
+    <End Role="TimeSheets" Type="Self.TimeSheets" Multiplicity="1" />
+    <End Role="TimeEntries" Type="Self.TimeEntries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TimeSheets">
+        <PropertyRef Name="TimeSheetId" />
+      </Principal>
+      <Dependent Role="TimeEntries">
+        <PropertyRef Name="TimeSheetTimeSheetId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TimeTrackerStoreContainer">
+    <EntitySet Name="AuditTimeSheets" EntityType="Self.AuditTimeSheets" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FYears" EntityType="Self.FYears" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MyProjects" EntityType="Self.MyProjects" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Projects" EntityType="Self.Projects" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProjectYearEOs" EntityType="Self.ProjectYearEOs" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Salaries" EntityType="Self.Salaries" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TimeEntries" EntityType="Self.TimeEntries" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TimeSheets" EntityType="Self.TimeSheets" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_EmployeeMyProject" Association="Self.FK_EmployeeMyProject">
+      <End Role="Employees" EntitySet="Employees" />
+      <End Role="MyProjects" EntitySet="MyProjects" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Employees_Employees" Association="Self.FK_Employees_Employees">
+      <End Role="Employees" EntitySet="Employees" />
+      <End Role="Employees1" EntitySet="Employees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EmployeeSalary" Association="Self.FK_EmployeeSalary">
+      <End Role="Employees" EntitySet="Employees" />
+      <End Role="Salaries" EntitySet="Salaries" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EmployeeTimeSheet" Association="Self.FK_EmployeeTimeSheet">
+      <End Role="Employees" EntitySet="Employees" />
+      <End Role="TimeSheets" EntitySet="TimeSheets" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FYearProjectYearEO" Association="Self.FK_FYearProjectYearEO">
+      <End Role="FYears" EntitySet="FYears" />
+      <End Role="ProjectYearEOs" EntitySet="ProjectYearEOs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FYearTimeSheet" Association="Self.FK_FYearTimeSheet">
+      <End Role="FYears" EntitySet="FYears" />
+      <End Role="TimeSheets" EntitySet="TimeSheets" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectMyProject" Association="Self.FK_ProjectMyProject">
+      <End Role="Projects" EntitySet="Projects" />
+      <End Role="MyProjects" EntitySet="MyProjects" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectProjectYearEO" Association="Self.FK_ProjectProjectYearEO">
+      <End Role="Projects" EntitySet="Projects" />
+      <End Role="ProjectYearEOs" EntitySet="ProjectYearEOs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectTimeEntry" Association="Self.FK_ProjectTimeEntry">
+      <End Role="Projects" EntitySet="Projects" />
+      <End Role="TimeEntries" EntitySet="TimeEntries" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TimeSheetAuditTimeSheet" Association="Self.FK_TimeSheetAuditTimeSheet">
+      <End Role="TimeSheets" EntitySet="TimeSheets" />
+      <End Role="AuditTimeSheets" EntitySet="AuditTimeSheets" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TimeSheetTimeEntry" Association="Self.FK_TimeSheetTimeEntry">
+      <End Role="TimeSheets" EntitySet="TimeSheets" />
+      <End Role="TimeEntries" EntitySet="TimeEntries" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

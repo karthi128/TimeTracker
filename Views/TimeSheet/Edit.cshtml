@@ -1,0 +1,472 @@
+﻿@model FederalTimeTracker.Models.TimeSheet
+
+@{
+    ViewBag.Title = "Review Timesheet";
+}
+
+<h2>@ViewBag.Title :  @Html.DisplayFor(model => model.CreatedBy) [ @ViewBag.MonthName -  @ViewBag.Year ]</h2>
+
+<div class="jumbotron">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <table border="0">
+                    <thead>
+                        @*<tr>
+                    <td> &nbsp;</td>
+                    <td>  &nbsp;</td>
+                    @for (var i = (DateTime)ViewData["DayStart"]; i < (DateTime)ViewData["DayEnd"]; i = ((DateTime)i).AddDays(1))
+                    {
+
+
+                        <td class="dateHeaderDate">@Html.Label("1", i.DayOfWeek.ToString().Substring(0, 1), new { @class = "txtTimeEntry" })</td>
+
+
+                    }
+                    <td>  &nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>*@
+                        <tr>
+                            <td>  @Html.Label("Projects", "Projects", new { @class = "dateHeader" })</td>
+
+                            <td>  &nbsp;</td>
+                            @for (var i = (DateTime)ViewData["DayStart"]; i < (DateTime)ViewData["DayEnd"]; i = i.AddDays(1))
+                            {
+                                if (i.DayOfWeek == DayOfWeek.Sunday || i.DayOfWeek == DayOfWeek.Saturday)
+                                {
+                                    <td class="dateHeaderDate">@Html.Label("1", i.Day.ToString(), new { @class = "txtTimeEntry" })</td>
+                                }
+                                else
+                                {
+                                    <td class="dateHeaderDate">@Html.Label("1", i.Day.ToString(), new { @class = "txtTimeEntry" })</td>
+                                }
+
+                            }
+                            <td>  &nbsp;</td>
+                            <td>@Html.Label("Total", "Total".ToString(), new { @class = "dateHeader" })</td>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+
+                        @foreach (var project in (List<string>)ViewData["Projects"])
+                        {
+                            <tr>
+                                <td>  @project </td>
+                                <td> &nbsp;</td>
+                                @for (var i = (DateTime)ViewData["DayStart"]; i < (DateTime)ViewData["DayEnd"]; i = ((DateTime)i).AddDays(1))
+                                {
+
+                                    if (i.DayOfWeek == DayOfWeek.Sunday || i.DayOfWeek == DayOfWeek.Saturday)
+                                    {
+                                        <td>@Html.TextBox(i.Day.ToString(), "", new { @class = "txtTimeEntryWE form-control input-xsmall"})</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@Html.TextBox(i.Day.ToString(), "", new { @class = "txtTimeEntry  form-control input-xsmall", @readonly = true })</td>
+
+                                    }
+
+
+
+
+                                }
+                                <td>  &nbsp;</td>
+                                <td align="right"> 0</td>
+                            </tr>
+                        }
+
+
+                        <tr>
+                            <td>Non-Federal </td>
+                            <td> &nbsp;</td>
+                            @for (var i = (DateTime)ViewData["DayStart"]; i < (DateTime)ViewData["DayEnd"]; i = ((DateTime)i).AddDays(1))
+                            {
+
+                                if (i.DayOfWeek == DayOfWeek.Sunday || i.DayOfWeek == DayOfWeek.Saturday)
+                                {
+                                    <td>@Html.TextBox(i.Day.ToString(), "", new { @class = "txtTimeEntryWE form-control" })</td>
+                                }
+                                else
+                                {
+                                    <td>@Html.TextBox(i.Day.ToString(), "", new { @class = "txtTimeEntry form-control", @readonly = true })</td>
+
+                                }
+
+
+
+
+                            }
+                            <td>  &nbsp;</td>
+                            <td align="right"> 0</td>
+                        </tr>
+                        <tr>
+                            <td>  Leave </td>
+                            <td> &nbsp;</td>
+                            @for (var i = (DateTime)ViewData["DayStart"]; i < (DateTime)ViewData["DayEnd"]; i = ((DateTime)i).AddDays(1))
+                            {
+
+                                if (i.DayOfWeek == DayOfWeek.Sunday || i.DayOfWeek == DayOfWeek.Saturday)
+                                {
+                                    <td>@Html.TextBox(i.Day.ToString(), "", new { @class = "txtTimeEntryWE form-control" })</td>
+                                }
+                                else
+                                {
+                                    <td>@Html.TextBox(i.Day.ToString(), "", new { @class = "txtTimeEntry form-control", @readonly = true })</td>
+
+                                }
+
+
+
+
+                            }
+                            <td>  &nbsp;</td>
+                            <td align="right"> 0</td>
+                        </tr>
+
+                    </tbody>
+
+                    <tfoot>
+
+
+                        <tr>
+                            <td><p>  Total </p></td>
+                            <td><p>  &nbsp;</p></td>
+                            @for (var i = (DateTime)ViewData["DayStart"]; i < (DateTime)ViewData["DayEnd"]; i = ((DateTime)i).AddDays(1))
+                            {
+
+                                if (i.DayOfWeek == DayOfWeek.Sunday || i.DayOfWeek == DayOfWeek.Saturday)
+                                {
+                                    <td class="dateHeaderDate">@Html.Label(i.Day.ToString(), "0", new { @class = "txtTimeEntry" })</td>
+                                }
+                                else
+                                {
+                                    <td class="dateHeaderDate">@Html.Label(i.Day.ToString(), "0", new { @class = "txtTimeEntry" })</td>
+
+                                }
+
+                            }
+                            <td>  &nbsp;</td>
+                            <td align="right"> 0</td>
+                        </tr>
+
+                    </tfoot>
+
+
+                </table>
+
+            </div>
+        </div>
+        @*<td>@Html.Label("1", "1", new { @class = "txtTimeEntry" })</td>*@
+    </div>
+    <div class="row">
+
+
+        <div class="col-md-12">
+
+
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <div>
+                    Employee Comments:
+                </div>
+                <div>
+                  
+                    @Html.TextAreaFor(model => model.EmployeeComments, 5, 20, new { @class = "form-control boxsizingBorder", @readonly = true  })
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-4">
+
+            <div class="form-group">
+                <div>
+                    Reviewer Comments:
+                </div>
+                <div>
+                    @Html.TextAreaFor(model => model.ReviewerComments, 5, 20, new { @class = "form-control boxsizingBorder"})
+
+                </div>
+            </div>
+
+           
+        </div>
+
+        <div class="col-md-4">
+            <div>
+                &nbsp;
+            </div><div>
+                &nbsp;
+            </div>
+            <div>
+                &nbsp;
+            </div><div>
+                &nbsp;
+            </div>
+            <p><a class="btn btn-default" href="#">Save Comments and Review Later</a></p>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="row">
+    <div class="col-md-4">
+        <div>
+            &nbsp;
+        </div>
+        <a class="btn btn-default" id="viewOffSet" href="#">View Offset report</a>
+    </div>
+    <div class="col-md-4">
+        
+        <div class="form-group">
+            <div>
+                Reviewer Signature
+            </div>
+            <div>
+                @Html.TextBox("txtSignature", "", new { @class = "form-control" })
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-4">
+        <div>
+            &nbsp;
+        </div>
+   
+        @Html.ActionLink("Approve  »", "Index", new { controller = "TimeSheet" }, new { @class = "btn btn-primary" })
+
+
+        @Html.ActionLink("« Request For Update", "Index", new { controller = "TimeSheet" }, new { @class = "btn btn-danger" })
+
+    </div>
+</div>
+<hr />
+<div id="dialog-form" title="Offset Report for  @Html.DisplayFor(model => model.CreatedBy) [@ViewBag.MonthName -  @ViewBag.Year]">
+    <table id="Eos" title="Offset Report  for  @Html.DisplayFor(model => model.CreatedBy) [@ViewBag.MonthName -  @ViewBag.Year]" style="width:100%">
+        <thead>
+            <tr class="ui-widget-header ">
+                <th>Project/EO</th>
+                <th>Hours</th>
+                <th>FTE</th>
+                <th>Dollors</th>
+                <th>Leave</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="ui-widget-content">
+                <td>Admininistration of the Annual Program 2013</td>
+                <td>546</td>
+                <td>.26&nbsp;</td>
+                <td>$9,100&nbsp;</td>
+                <td>$756.67</td>
+
+            </tr>
+
+            <tr class="ui-widget-content">
+                <td>Broadband Implementation and E-Rate 2013</td>
+                <td>546</td>
+                <td>.26&nbsp;</td>
+                <td>$9,100&nbsp;</td>
+                <td>$756.67</td>
+
+            </tr>
+            <tr class="ui-widget-content">
+                <td>Connected Director Community 2013</td>
+                <td>546</td>
+                <td>.26&nbsp;</td>
+                <td>$9,100&nbsp;</td>
+                <td>$756.67</td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal" style="visibility:hidden;display:none">
+        <h4>TimeSheet</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.TimeSheetId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Year, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Year)
+                @Html.ValidationMessageFor(model => model.Year)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Month, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Month)
+                @Html.ValidationMessageFor(model => model.Month)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SubmittedDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SubmittedDate)
+                @Html.ValidationMessageFor(model => model.SubmittedDate)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReviewedDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ReviewedDate)
+                @Html.ValidationMessageFor(model => model.ReviewedDate)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EmployeeComments, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EmployeeComments)
+                @Html.ValidationMessageFor(model => model.EmployeeComments)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReviewerComments, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ReviewerComments)
+                @Html.ValidationMessageFor(model => model.ReviewerComments)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Signature, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Signature)
+                @Html.ValidationMessageFor(model => model.Signature)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FYearFYearId, "FYearFYearId", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("FYearFYearId", String.Empty)
+                @Html.ValidationMessageFor(model => model.FYearFYearId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EmployeeEmployeeId, "EmployeeEmployeeId", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("EmployeeEmployeeId", String.Empty)
+                @Html.ValidationMessageFor(model => model.EmployeeEmployeeId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Status, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Status)
+                @Html.ValidationMessageFor(model => model.Status)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CreatedBy, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CreatedBy)
+                @Html.ValidationMessageFor(model => model.CreatedBy)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CreatedDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CreatedDate)
+                @Html.ValidationMessageFor(model => model.CreatedDate)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ModifiedBy, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ModifiedBy)
+                @Html.ValidationMessageFor(model => model.ModifiedBy)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ModifiedDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ModifiedDate)
+                @Html.ValidationMessageFor(model => model.ModifiedDate)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("« Back to List", "Index", new { controller = "TimeSheet" }, new { @class = "btn btn-default" }) 
+    
+</div>
+
+@section Scripts {
+    @Styles.Render("~/Content/themes/base/css")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+
+
+    <script>
+        //var name = $("#name"),
+        // email = $("#email"),
+        // password = $("#password"),
+        // allFields = $([]).add(name).add(email).add(password),
+        // tips = $(".validateTips");
+
+        $("#dialog-form").dialog({
+            autoOpen: false,
+            height: 300,
+            width: 650,
+            modal: true,
+            buttons: {
+                "Close": function () {
+
+                    $(this).dialog("close");
+
+                }
+
+            },
+            close: function () {
+                $(this).dialog("close"); //allFields.val("").removeClass("ui-state-error");
+            }
+        });
+
+        $("#viewOffSet")
+          .button()
+          .click(function () {
+
+              $("#dialog-form").dialog("open");
+          });
+
+    </script>
+
+}
+
+

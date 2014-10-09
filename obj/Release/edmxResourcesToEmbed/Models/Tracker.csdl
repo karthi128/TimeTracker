@@ -1,0 +1,372 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="TimeTracker" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="TimeTrackerContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="FYears" EntityType="TimeTracker.FYear" />
+    <EntitySet Name="Projects" EntityType="TimeTracker.Project" />
+    <EntitySet Name="Employees" EntityType="TimeTracker.Employee" />
+    <EntitySet Name="MyProjects" EntityType="TimeTracker.MyProject" />
+    <EntitySet Name="TimeSheets" EntityType="TimeTracker.TimeSheet" />
+    <EntitySet Name="TimeEntries" EntityType="TimeTracker.TimeEntry" />
+    <EntitySet Name="AuditTimeSheets" EntityType="TimeTracker.AuditTimeSheet" />
+    <EntitySet Name="Salaries" EntityType="TimeTracker.Salary" />
+    <AssociationSet Name="FYearTimeSheet" Association="TimeTracker.FYearTimeSheet">
+      <End Role="FYear" EntitySet="FYears" />
+      <End Role="TimeSheet" EntitySet="TimeSheets" />
+    </AssociationSet>
+    <AssociationSet Name="ProjectMyProject" Association="TimeTracker.ProjectMyProject">
+      <End Role="Project" EntitySet="Projects" />
+      <End Role="MyProject" EntitySet="MyProjects" />
+    </AssociationSet>
+    <AssociationSet Name="ProjectTimeEntry" Association="TimeTracker.ProjectTimeEntry">
+      <End Role="Project" EntitySet="Projects" />
+      <End Role="TimeEntry" EntitySet="TimeEntries" />
+    </AssociationSet>
+    <AssociationSet Name="EmployeeMyProject" Association="TimeTracker.EmployeeMyProject">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="MyProject" EntitySet="MyProjects" />
+    </AssociationSet>
+    <AssociationSet Name="EmployeeTimeSheet" Association="TimeTracker.EmployeeTimeSheet">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="TimeSheet" EntitySet="TimeSheets" />
+    </AssociationSet>
+    <AssociationSet Name="EmployeeSalary" Association="TimeTracker.EmployeeSalary">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="Salary" EntitySet="Salaries" />
+    </AssociationSet>
+    <AssociationSet Name="TimeSheetTimeEntry" Association="TimeTracker.TimeSheetTimeEntry">
+      <End Role="TimeSheet" EntitySet="TimeSheets" />
+      <End Role="TimeEntry" EntitySet="TimeEntries" />
+    </AssociationSet>
+    <AssociationSet Name="TimeSheetAuditTimeSheet" Association="TimeTracker.TimeSheetAuditTimeSheet">
+      <End Role="TimeSheet" EntitySet="TimeSheets" />
+      <End Role="AuditTimeSheet" EntitySet="AuditTimeSheets" />
+    </AssociationSet>
+    <EntitySet Name="ProjectYearEOs" EntityType="TimeTracker.ProjectYearEO" />
+    <AssociationSet Name="ProjectProjectYearEO" Association="TimeTracker.ProjectProjectYearEO">
+      <End Role="Project" EntitySet="Projects" />
+      <End Role="ProjectYearEO" EntitySet="ProjectYearEOs" />
+    </AssociationSet>
+    <AssociationSet Name="FYearProjectYearEO" Association="TimeTracker.FYearProjectYearEO">
+      <End Role="FYear" EntitySet="FYears" />
+      <End Role="ProjectYearEO" EntitySet="ProjectYearEOs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Employees_Employees" Association="TimeTracker.FK_Employees_Employees">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="Employee1" EntitySet="Employees" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="FYear">
+    <Key>
+      <PropertyRef Name="FYearId" />
+    </Key>
+    <Property Name="FYearId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FYearName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" Nullable="true" MaxLength="2000" FixedLength="false" Unicode="true" />
+    <Property Name="Active" Type="Boolean" Nullable="false" />
+    <Property Name="Current" Type="Boolean" Nullable="false" />
+    <Property Name="Note" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ModifiedBy" Type="String" Nullable="true" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="TimeSheets" Relationship="TimeTracker.FYearTimeSheet" FromRole="FYear" ToRole="TimeSheet" />
+    <NavigationProperty Name="ProjectYearEOs" Relationship="TimeTracker.FYearProjectYearEO" FromRole="FYear" ToRole="ProjectYearEO" />
+  </EntityType>
+  <EntityType Name="Project">
+    <Key>
+      <PropertyRef Name="ProjectId" />
+    </Key>
+    <Property Name="ProjectId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EffectiveDate" Type="DateTime" Nullable="true" Precision="3" />
+    <Property Name="ClosedDate" Type="DateTime" Nullable="true" Precision="3" />
+    <Property Name="Active" Type="Boolean" Nullable="false" />
+    <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" Nullable="true" MaxLength="2000" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ModifiedBy" Type="String" Nullable="true" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="Note" Type="String" Nullable="true" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="MyProjects" Relationship="TimeTracker.ProjectMyProject" FromRole="Project" ToRole="MyProject" />
+    <NavigationProperty Name="TimeEntries" Relationship="TimeTracker.ProjectTimeEntry" FromRole="Project" ToRole="TimeEntry" />
+    <NavigationProperty Name="ProjectYearEOs" Relationship="TimeTracker.ProjectProjectYearEO" FromRole="Project" ToRole="ProjectYearEO" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="EmployeeId" />
+    </Key>
+    <Property Name="EmployeeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FullName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="FirstName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="MiddleName" Type="String" Nullable="true" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Title" Type="String" Nullable="true" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Role" Type="TimeTracker.Role" Nullable="false" />
+    <Property Name="EmployeeType" Type="TimeTracker.EmployeeType" Nullable="false" />
+    <Property Name="EmailID" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Active" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="MyProjects" Relationship="TimeTracker.EmployeeMyProject" FromRole="Employee" ToRole="MyProject" />
+    <NavigationProperty Name="TimeSheets" Relationship="TimeTracker.EmployeeTimeSheet" FromRole="Employee" ToRole="TimeSheet" />
+    <NavigationProperty Name="Salaries" Relationship="TimeTracker.EmployeeSalary" FromRole="Employee" ToRole="Salary" />
+    <Property Name="ReportingTo" Type="Int32" Nullable="true" />
+    <Property Name="SAMAccountName" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Note" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ModifiedBy" Type="String" Nullable="true" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="ReportingManager" Relationship="TimeTracker.FK_Employees_Employees" FromRole="Employee1" ToRole="Employee" />
+  </EntityType>
+  <EntityType Name="MyProject">
+    <Key>
+      <PropertyRef Name="MyProjectId" />
+    </Key>
+    <Property Name="MyProjectId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmployeeEmployeeId" Type="Int32" Nullable="false" />
+    <Property Name="ProjectProjectId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Project" Relationship="TimeTracker.ProjectMyProject" FromRole="MyProject" ToRole="Project" />
+    <NavigationProperty Name="Employee" Relationship="TimeTracker.EmployeeMyProject" FromRole="MyProject" ToRole="Employee" />
+  </EntityType>
+  <EntityType Name="TimeSheet">
+    <Key>
+      <PropertyRef Name="TimeSheetId" />
+    </Key>
+    <Property Name="TimeSheetId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Year" Type="Int16" Nullable="false" />
+    <Property Name="Month" Type="Int16" Nullable="false" />
+    <Property Name="SubmittedDate" Type="DateTime" Nullable="true" Precision="3" />
+    <Property Name="ReviewedDate" Type="DateTime" Nullable="true" Precision="3" />
+    <Property Name="EmployeeComments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ReviewerComments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Signature" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="FYearFYearId" Type="Int32" Nullable="false" />
+    <Property Name="EmployeeEmployeeId" Type="Int32" Nullable="false" />
+    <Property Name="Status" Type="TimeTracker.TimeSheetStatus" Nullable="false" />
+    <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ModifiedBy" Type="String" Nullable="true" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="FYear" Relationship="TimeTracker.FYearTimeSheet" FromRole="TimeSheet" ToRole="FYear" />
+    <NavigationProperty Name="Employee" Relationship="TimeTracker.EmployeeTimeSheet" FromRole="TimeSheet" ToRole="Employee" />
+    <NavigationProperty Name="TimeEntries" Relationship="TimeTracker.TimeSheetTimeEntry" FromRole="TimeSheet" ToRole="TimeEntry" />
+    <NavigationProperty Name="AuditTimeSheets" Relationship="TimeTracker.TimeSheetAuditTimeSheet" FromRole="TimeSheet" ToRole="AuditTimeSheet" />
+  </EntityType>
+  <EntityType Name="TimeEntry">
+    <Key>
+      <PropertyRef Name="TimeEntryId" />
+    </Key>
+    <Property Name="TimeEntryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TimeSheetTimeSheetId" Type="Int32" Nullable="false" />
+    <Property Name="Hours" Type="Int16" Nullable="false" />
+    <Property Name="EntryType" Type="TimeTracker.EntryType" Nullable="false" />
+    <Property Name="ProjectProjectId" Type="Int32" Nullable="false" />
+    <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ModifiedBy" Type="String" Nullable="true" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Project" Relationship="TimeTracker.ProjectTimeEntry" FromRole="TimeEntry" ToRole="Project" />
+    <NavigationProperty Name="TimeSheet" Relationship="TimeTracker.TimeSheetTimeEntry" FromRole="TimeEntry" ToRole="TimeSheet" />
+    <Property Name="TimeSheetDate" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
+  <EntityType Name="AuditTimeSheet">
+    <Key>
+      <PropertyRef Name="AuditTimeSheetId" />
+    </Key>
+    <Property Name="AuditTimeSheetId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Status" Type="TimeTracker.TimeSheetStatus" Nullable="false" />
+    <Property Name="AuditDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Comments" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="TimeSheetTimeSheetId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="TimeSheet" Relationship="TimeTracker.TimeSheetAuditTimeSheet" FromRole="AuditTimeSheet" ToRole="TimeSheet" />
+  </EntityType>
+  <EntityType Name="Salary">
+    <Key>
+      <PropertyRef Name="SalaryId" />
+    </Key>
+    <Property Name="SalaryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmployeeEmployeeId" Type="Int32" Nullable="false" />
+    <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="TotalSalary" Type="Double" Nullable="false" />
+    <Property Name="Rate" Type="Double" Nullable="false" />
+    <NavigationProperty Name="Employee" Relationship="TimeTracker.EmployeeSalary" FromRole="Salary" ToRole="Employee" />
+    <Property Name="PositionNumber" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="EO" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="IsITStaff" Type="Boolean" Nullable="false" DefaultValue="False" />
+    <Property Name="Note" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ModifiedBy" Type="String" Nullable="true" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <Association Name="FYearTimeSheet">
+    <End Type="TimeTracker.FYear" Role="FYear" Multiplicity="1" />
+    <End Type="TimeTracker.TimeSheet" Role="TimeSheet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FYear">
+        <PropertyRef Name="FYearId" />
+      </Principal>
+      <Dependent Role="TimeSheet">
+        <PropertyRef Name="FYearFYearId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ProjectMyProject">
+    <End Type="TimeTracker.Project" Role="Project" Multiplicity="1" />
+    <End Type="TimeTracker.MyProject" Role="MyProject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="ProjectId" />
+      </Principal>
+      <Dependent Role="MyProject">
+        <PropertyRef Name="ProjectProjectId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ProjectTimeEntry">
+    <End Type="TimeTracker.Project" Role="Project" Multiplicity="1" />
+    <End Type="TimeTracker.TimeEntry" Role="TimeEntry" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="ProjectId" />
+      </Principal>
+      <Dependent Role="TimeEntry">
+        <PropertyRef Name="ProjectProjectId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="EmployeeMyProject">
+    <End Type="TimeTracker.Employee" Role="Employee" Multiplicity="1" />
+    <End Type="TimeTracker.MyProject" Role="MyProject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="EmployeeId" />
+      </Principal>
+      <Dependent Role="MyProject">
+        <PropertyRef Name="EmployeeEmployeeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="EmployeeTimeSheet">
+    <End Type="TimeTracker.Employee" Role="Employee" Multiplicity="1" />
+    <End Type="TimeTracker.TimeSheet" Role="TimeSheet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="EmployeeId" />
+      </Principal>
+      <Dependent Role="TimeSheet">
+        <PropertyRef Name="EmployeeEmployeeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="EmployeeSalary">
+    <End Type="TimeTracker.Employee" Role="Employee" Multiplicity="1" />
+    <End Type="TimeTracker.Salary" Role="Salary" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="EmployeeId" />
+      </Principal>
+      <Dependent Role="Salary">
+        <PropertyRef Name="EmployeeEmployeeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TimeSheetTimeEntry">
+    <End Type="TimeTracker.TimeSheet" Role="TimeSheet" Multiplicity="1" />
+    <End Type="TimeTracker.TimeEntry" Role="TimeEntry" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TimeSheet">
+        <PropertyRef Name="TimeSheetId" />
+      </Principal>
+      <Dependent Role="TimeEntry">
+        <PropertyRef Name="TimeSheetTimeSheetId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TimeSheetAuditTimeSheet">
+    <End Type="TimeTracker.TimeSheet" Role="TimeSheet" Multiplicity="1" />
+    <End Type="TimeTracker.AuditTimeSheet" Role="AuditTimeSheet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TimeSheet">
+        <PropertyRef Name="TimeSheetId" />
+      </Principal>
+      <Dependent Role="AuditTimeSheet">
+        <PropertyRef Name="TimeSheetTimeSheetId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EnumType Name="Role" UnderlyingType="Int16">
+    <Member Name="Employee" Value="0" />
+    <Member Name="Reviewer" Value="1" />
+    <Member Name="Administrator" Value="2" />
+  </EnumType>
+  <EnumType Name="EmployeeType" UnderlyingType="Int16">
+    <Member Name="LSTA" Value="0" />
+    <Member Name="NonLSTA" Value="1" />
+  </EnumType>
+  <EnumType Name="TimeSheetStatus" UnderlyingType="Int16">
+    <Member Name="NotSubmitted" Value="0" />
+    <Member Name="Submitted" Value="1" />
+    <Member Name="Approved" Value="2" />
+    <Member Name="RequestForUpdate" Value="3" />
+  </EnumType>
+  <EnumType Name="EntryType">
+    <Member Name="LSTA" Value="0" />
+    <Member Name="NonLSTA" Value="1" />
+    <Member Name="Leave" Value="2" />
+  </EnumType>
+  <EntityType Name="ProjectYearEO">
+    <Key>
+      <PropertyRef Name="ProjectYearEOId" />
+    </Key>
+    <Property Name="ProjectYearEOId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EOCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ModifiedBy" Type="String" Nullable="true" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="Note" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Project" Relationship="TimeTracker.ProjectProjectYearEO" FromRole="ProjectYearEO" ToRole="Project" />
+    <Property Name="ProjectProjectId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="FYear" Relationship="TimeTracker.FYearProjectYearEO" FromRole="ProjectYearEO" ToRole="FYear" />
+    <Property Name="FYearFYearId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="ProjectProjectYearEO">
+    <End Type="TimeTracker.Project" Role="Project" Multiplicity="1" />
+    <End Type="TimeTracker.ProjectYearEO" Role="ProjectYearEO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="ProjectId" />
+      </Principal>
+      <Dependent Role="ProjectYearEO">
+        <PropertyRef Name="ProjectProjectId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FYearProjectYearEO">
+    <End Type="TimeTracker.FYear" Role="FYear" Multiplicity="1" />
+    <End Type="TimeTracker.ProjectYearEO" Role="ProjectYearEO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FYear">
+        <PropertyRef Name="FYearId" />
+      </Principal>
+      <Dependent Role="ProjectYearEO">
+        <PropertyRef Name="FYearFYearId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Employees_Employees">
+    <End Type="TimeTracker.Employee" Role="Employee" Multiplicity="0..1" />
+    <End Type="TimeTracker.Employee" Role="Employee1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="EmployeeId" />
+      </Principal>
+      <Dependent Role="Employee1">
+        <PropertyRef Name="ReportingTo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

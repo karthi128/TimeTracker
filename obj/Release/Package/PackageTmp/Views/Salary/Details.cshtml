@@ -1,0 +1,122 @@
+﻿@model FederalTimeTracker.Models.Salary
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>Salary</h4>
+    	<hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Employee.FullName)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Employee.FullName)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.StartDate)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.TotalSalary)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.TotalSalary)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Rate)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Rate)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.PositionNumber)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.PositionNumber)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.EO)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.EO)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.IsITStaff)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.IsITStaff)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Note)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Note)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.CreatedBy)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.CreatedDate)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ModifiedBy)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ModifiedBy)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ModifiedDate)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ModifiedDate)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.SalaryId }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

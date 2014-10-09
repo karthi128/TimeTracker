@@ -1,0 +1,187 @@
+﻿@model FederalTimeTracker.Models.Employee
+
+@{
+    ViewBag.Title = "Employee Details";
+}
+
+<h2>Employee: @Html.DisplayFor(model => model.FullName)</h2>
+<hr />
+<div class="row">
+
+        <div class="col-md-6">
+
+            <dl class="dl-horizontal">
+          
+                <dt>
+                    @Html.DisplayNameFor(model => model.SAMAccountName)
+                </dt>
+
+                <dd>
+                    &nbsp; @Html.DisplayFor(model => model.SAMAccountName)
+                </dd>
+
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.FullName)
+                </dt>
+
+                <dd>
+                    &nbsp; @Html.DisplayFor(model => model.FullName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </dt>
+
+                <dd>
+                    &nbsp; @Html.DisplayFor(model => model.FirstName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </dt>
+
+                <dd>
+                    &nbsp; @Html.DisplayFor(model => model.LastName)
+                </dd>
+
+                <dt>
+                    &nbsp; @Html.DisplayNameFor(model => model.MiddleName)
+                </dt>
+
+                <dd>
+                    &nbsp; @Html.DisplayFor(model => model.MiddleName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Title)
+                </dt>
+
+                <dd>
+                    &nbsp; @Html.DisplayFor(model => model.Title)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Role)
+                </dt>
+
+                <dd>
+                    &nbsp; @Html.DisplayFor(model => model.Role)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.EmployeeType)
+                </dt>
+
+                <dd>
+                    &nbsp; @Html.DisplayFor(model => model.EmployeeType)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.EmailID)
+                </dt>
+
+                <dd>
+                    &nbsp; @Html.DisplayFor(model => model.EmailID)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ReportingManager)  
+                </dt>
+
+                <dd>
+                    &nbsp; @Html.DisplayFor(model => model.ReportingManager.FullName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Active)
+                </dt>
+
+                <dd>
+                    &nbsp; @Html.DisplayFor(model => model.Active)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CreatedBy)
+                </dt>
+
+                <dd>
+                    &nbsp; @Html.DisplayFor(model => model.CreatedBy)  &nbsp;  @Html.DisplayFor(model => model.CreatedDate)
+                </dd>
+
+               
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ModifiedBy)
+                </dt>
+
+                <dd>
+                    &nbsp;  @Html.DisplayFor(model => model.ModifiedBy)   &nbsp;  @Html.DisplayFor(model => model.ModifiedDate)
+                </dd>
+
+              
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Note)
+                </dt>
+
+                <dd>
+                    &nbsp;  @Html.DisplayFor(model => model.Note)
+                </dd>
+
+            </dl>
+        </div>
+
+    <div class="col-md-4">
+        <div class="table-responsive" id="EmployeeSalary">
+
+    
+        </div>
+                
+        </div>
+        </div>
+
+<div class="row">
+
+    <div class="form-group">
+        <div class="col-md-2">
+            @Html.ActionLink("« Back to Employee List", "Index", new { controller = "Employee" }, new { @class = "btn btn-default" })
+
+
+        </div>
+        <div class="col-md-10">
+            @Html.ActionLink("Edit »", "Edit", new { id = Model.EmployeeId }, new { @class = "btn btn-primary btn-large" })
+
+
+
+        </div>
+
+
+    </div>
+</div>
+
+@section Scripts {
+@Styles.Render("~/Content/themes/base/css")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/jqueryui")
+
+    <script>
+
+        function getSalaryTable() {
+            $.ajax({
+                // Get Salary PartialView
+                url: '@Url.Action("Index","Salary")' + '?id=@Model.EmployeeId',
+                type: 'Get',
+                success: function (data) {
+
+                    $("#EmployeeSalary").empty().append(data);
+                },
+                error: function() {
+                    alert("something seems wrong");
+                }
+            });
+        }
+
+        getSalaryTable();
+    </script>
+}
+
